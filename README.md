@@ -4,8 +4,18 @@
 
 ## NEST_ECCOMERCE
 
-1. Levantar la base de datos
+1. Clonar el repositorio
+
+2. `Npm instal` **||** `Npm i`
+
+3. Clonar el archivo `.env.example` y renombarlo a `.env`
+
+4. Agregar los valores a las variables de entorno
+
+5. Levantar la base de datos
 
 ```
 docker-compose up -d
 ```
+
+6. Levantar: `Npm run start:dev`
