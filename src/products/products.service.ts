@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { Product } from './entities/product.entity';
 import { PaginationDto } from 'src/common/dtos/pagination.dto';
 import { isUUID } from 'class-validator';
+import { title } from 'process';
 
 @Injectable()
 export class ProductsService {
@@ -45,9 +46,12 @@ export class ProductsService {
     if (isUUID(term)) {
       productExist = await this.productRepository.findOneBy({ id: term })
     } else {
-      productExist = await this.productRepository.findOneBy({ slug: term })
+      const queryBuilder = this.productRepository.createQueryBuilder();
+      productExist = await queryBuilder.where(`UPPER(title) =:title or slug =:slug`, {
+        title: term.toUpperCase(),
+        slug: term.toLowerCase(),
+      }).getOne();
     }
-    // const productExist = await this.productRepository.findOneBy({ term })
     if (!productExist) throw new NotFoundException(`Product '${term}' not found`);
     return productExist;
   }
