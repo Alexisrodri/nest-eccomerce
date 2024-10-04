@@ -1,4 +1,4 @@
-import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BeforeInsert, BeforeUpdate, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Product {
@@ -37,14 +37,32 @@ export class Product {
   })
   sizes: string[];
 
+
   @Column('text')
   gender: string;
+
+  @Column('text', {
+    array: true,
+    default: [],
+  })
+  tags: string[];
 
   @BeforeInsert()
   checkSlugInsert() {
     if (!this.slug) {
       this.slug = this.title;
     }
+    this.slug = this.slug
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9 ]/g, '')
+      .replace(/\s+/g, '_')
+  }
+
+  @BeforeUpdate()
+  checkSlug() {
     this.slug = this.slug
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '')
