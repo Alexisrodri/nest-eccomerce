@@ -22,7 +22,7 @@ export class ProductsController {
   findOne(
     @Param('term') term: string
   ) {
-    return this.productsService.findOne(term);
+    return this.productsService.findOnePlain(term);
   }
 
   @Patch(':id')
