@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { LoginUserDto } from './dto';
 
 @Injectable()
 export class AuthService {
@@ -26,6 +27,10 @@ export class AuthService {
     } catch (error) {
       this.handleDbErrors(error)
     }
+  }
+
+  async login(loginUserDto: LoginUserDto) {
+    return loginUserDto;
   }
 
   private handleDbErrors(error: any): never {
