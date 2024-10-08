@@ -15,4 +15,7 @@ export class LoginUserDto {
   })
   password: string;
 
+  @IsString()
+  id: string
+
 }
